@@ -10,7 +10,7 @@ Each Scheme file might contains multiple packages, but they focus on supporting 
 Thus, installing packages is as simple as `guix package -f`, for example:
 
 ~~~
-git clone https://github.com/packages
+git clone https://github.com/zamfofex/packages
 cd packages
 guix package -f games/liquidwar5.scm
 ~~~
@@ -29,7 +29,7 @@ I tried to keep significant whitespace formatting exclusive to identation at the
 license — 0BSD
 ---
 
-Copyright © 2021 by zamfofex
+copyright © 2021 by zamfofex
 
 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
 
