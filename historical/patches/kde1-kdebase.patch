@@ -1,0 +1,5 @@
+--- a/kdm/CMakeLists.txt
++++ b/kdm/CMakeLists.txt
+@@ -0,1 +0,1 @@ target_link_libraries(kdm
+-    PkgConfig::libcrypt
++    -lcrypt
