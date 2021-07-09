@@ -22,7 +22,7 @@
   (gnu packages tls)
   (gnu packages cryptsetup))
 
-(include "../byacc.scm")
+(include "../compilers/byacc.scm")
 
 (define-public qt1
   (package
