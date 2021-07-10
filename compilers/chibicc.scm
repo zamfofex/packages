@@ -1,7 +1,6 @@
 (use-modules
   (guix packages)
   (guix licenses)
-  (guix packages)
   (guix git-download)
   (guix build-system gnu)
   (gnu packages base)
@@ -36,6 +35,8 @@
         (sha256 (base32 "1ayvik0j7202wd5cnic961p6ibasndwhmfzzrbkp8ga9zx18yr5h"))
         (patches (list (string-append (dirname current-filename) "/patches/chibicc.patch")))))
     
+    (supported-systems "x86_64-linux")
+    
     (build-system gnu-build-system)
     (arguments
       '(#:make-flags
@@ -44,13 +45,13 @@
                  "-DCHIBICC_ROOT=\\\"" (assoc-ref %outputs "out") "\\\" "
                  "-DGLIBC_ROOT=\\\"" (assoc-ref %build-inputs "glibc") "\\\" "
                  "-DGCC_ROOT=\\\"" (assoc-ref %build-inputs "gcc:lib") "\\\" "
-                 "-DLD_ROOT=\\\"" (assoc-ref %build-inputs "binutils") "\\\" "))
+                 "-DLD_EXE=\\\"" (assoc-ref %build-inputs "binutils") "/bin/ld\\\" "))
         #:phases
           (modify-phases %standard-phases
             (delete 'configure)
             (replace 'install
               (lambda* (#:key outputs #:allow-other-keys)
-                (let* ((out (assoc-ref outputs "out")) (bin (string-append out "/bin")) (include (string-append out "/include")))
+                (let* ((out (assoc-ref outputs "out")) (bin (string-append out "/bin")) (include (string-append out "/include/chibicc")))
                   (install-file "chibicc" bin)
                   (copy-recursively "include" include)))))
             ; (add-before 'check 'fix-test

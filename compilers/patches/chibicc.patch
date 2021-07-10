@@ -9,7 +9,7 @@
 -  strarray_push(&include_paths, "/usr/local/include");
 -  strarray_push(&include_paths, "/usr/include/x86_64-linux-gnu");
 -  strarray_push(&include_paths, "/usr/include");
-+  strarray_push(&include_paths, CHIBICC_ROOT "/include");
++  strarray_push(&include_paths, CHIBICC_ROOT "/include/chibicc");
 +  char *paths = strdup(getenv("C_INCLUDE_PATH"));
 +  char *path = strtok(paths, ":");
 +  while (path) {
@@ -39,7 +39,7 @@
 
 @@ -0,1 +0,1 @@ static void run_linker(StringArray *inputs, char *output) {
 -  strarray_push(&arr, "ld");
-+  strarray_push(&arr, LD_ROOT "/bin/ld");
++  strarray_push(&arr, LD_EXE);
 
 --- a/main.c
 +++ b/main.c
