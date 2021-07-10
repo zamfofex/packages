@@ -3,8 +3,11 @@
   (guix licenses)
   (guix git-download)
   (guix build-system gnu)
+  (guix utils)
   (gnu packages base)
   (gnu packages gcc))
+
+(include "./mold.scm")
 
 (define-public chibicc
   (package
@@ -61,5 +64,19 @@
         ; Note: Guix doesn’t like that, and I’m unsure whether it is possible to allow it, so tests are disabled.
         #:tests? #f
         #:test-target "test"))))
+
+(define-public chibicc-mold
+  (package (inherit chibicc)
+    (name "chibicc-mold")
+    (inputs (append (package-inputs chibicc) `(("mold" ,mold))))
+    (arguments
+      (substitute-keyword-arguments (package-arguments chibicc)
+        ((#:make-flags flags '())
+           '(list (string-append "CC=" (assoc-ref %build-inputs "gcc") "/bin/gcc")
+                  (string-append "CFLAGS=-O3 "
+                    "-DCHIBICC_ROOT=\\\"" (assoc-ref %outputs "out") "\\\" "
+                    "-DGLIBC_ROOT=\\\"" (assoc-ref %build-inputs "glibc") "\\\" "
+                    "-DGCC_ROOT=\\\"" (assoc-ref %build-inputs "gcc:lib") "\\\" "
+                    "-DLD_EXE=\\\"" (assoc-ref %build-inputs "mold") "/bin/mold\\\" ")))))))
 
 chibicc
