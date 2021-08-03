@@ -1,11 +1,14 @@
+(define-module (zamfofex editors lite))
+
 (use-modules
-  (gnu packages sdl)
-  (gnu packages stb)
-  (gnu packages lua)
   (guix packages)
+  (gnu packages)
   (guix licenses)
   (guix build-system copy)
-  (guix git-download))
+  (guix git-download)
+  (gnu packages sdl)
+  (gnu packages stb)
+  (gnu packages lua))
 
 ; Note: User configuration can be placed at ‘~/.config/lite/user’
 
@@ -29,7 +32,7 @@
             (commit (string-append "v" version))))
         (file-name (git-file-name name version))
         (sha256 (base32 "0wxqfb4ly8g7w5qph76xys95b55ackkags8jgd1nasmiyi8gcd5a"))
-        (patches (list (string-append (dirname current-filename) "/patches/lite.patch")))))
+        (patches (search-patches "patches/lite.patch"))))
     
     (build-system copy-build-system)
     

@@ -1,3 +1,5 @@
+(define-module (zamfofex games liquidwar5))
+
 ; Note: I still haven’t managed to get sound working properly.
 ; Note: I was able to get sound effects to play with some struggle by using local configuration files for ALSA.
 ; Note: But I wasn’t able to get Allegro to play the the music (MIDI) using a synthesizer.
@@ -20,7 +22,7 @@
 ; The current (May 2021) version of Allegro 4 available on the main Guix repository is defined to be 4.4.3.
 ; The latest version of Allegro 4 (4.4.3.1) includes a small bugfix that is very important to build Liquid War 5.
 ; Liquid War 5 does not currently seem to work well with Allegro 5.
-(define allegro-x
+(define-public allegro-x
   (package (inherit allegro-4)
     (version "4.4.3.1")
     (source
@@ -35,7 +37,7 @@
     (inputs (append (package-inputs allegro-4) `(("alsa-lib" ,alsa-lib))))
     (native-inputs `(("pkg-config" ,pkg-config)))))
 
-(define liquidwar5
+(define-public liquidwar5
   (package
     (name "liquidwar5")
     (version "5.6.5")

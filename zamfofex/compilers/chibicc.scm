@@ -1,5 +1,8 @@
+(define-module (zamfofex compilers chibicc))
+
 (use-modules
   (guix packages)
+  (gnu packages)
   (guix licenses)
   (guix git-download)
   (guix build-system gnu)
@@ -36,7 +39,7 @@
             (commit "90d1f7f199cc55b13c7fdb5839d1409806633fdb")))
         (file-name (git-file-name name version))
         (sha256 (base32 "1ayvik0j7202wd5cnic961p6ibasndwhmfzzrbkp8ga9zx18yr5h"))
-        (patches (list (string-append (dirname current-filename) "/patches/chibicc.patch")))))
+        (patches (find-patches "patches/chibicc.patch"))))
     
     (supported-systems "x86_64-linux")
     

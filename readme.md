@@ -5,9 +5,27 @@ Some miscellanous Guix packages for projects I find interesting and sometimes us
 
 For now there are only a few, but as I create more, I might share them here.
 
-Each Scheme file might contains multiple packages, but they focus on supporting a single package, which is what the file evaluates to.
+It is possible to use this repository as a Guix channel:
 
-Thus, installing packages is as simple as `guix package -f`, for example:
+~~~ Scheme
+; on your ‘~/.config/guix/channels.scm’ file:
+(append
+  (list
+    ; other channels here...
+    (channel
+      (name 'zamfofex)
+      (url "https://github.com/zamfofex/packages")
+      (branch "main")))
+  %default-channels)
+~~~
+
+~~~
+# after setting up the file above, in your shell:
+guix pull
+guix install liquidwar5
+~~~
+
+In addition, each Scheme file might contains multiple packages, but they focus on supporting a single package, which is what the file evaluates to. Thus, installing packages can be as simple as `guix package -f`, for example:
 
 ~~~
 git clone https://github.com/zamfofex/packages

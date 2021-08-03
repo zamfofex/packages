@@ -1,3 +1,5 @@
+(define-module (zamfofex historical kde1))
+
 ; Note: There is support for XDG_DATA_DIRS, but it is rudimentary.
 ; Note: The XDG_DATA_DIRS enviroment variable cannot contain multiple entries.
 ; Note: You can easily set it when calling ‘startx’, for example:
@@ -5,12 +7,14 @@
 
 (use-modules
   (guix licenses)
+  (gnu packages)
   (guix packages)
   (guix git-download)
   (guix gexp)
   (guix store)
   (guix build-system gnu)
   (guix build-system cmake)
+  (zamfofex compilers byacc)
   (gnu packages xorg)
   (gnu packages pkg-config)
   (gnu packages gl)
@@ -21,8 +25,6 @@
   (gnu packages pulseaudio)
   (gnu packages tls)
   (gnu packages cryptsetup))
-
-(include "../compilers/byacc.scm")
 
 (define-public qt1
   (package
@@ -83,7 +85,7 @@
             (commit "f2c5767cabd1a959959747cacb6bc9326935ed9f")))
         (file-name (git-file-name name version))
         (sha256 (base32 "0q8papw32x8lgznsn4m9pwbc22r2rlkds9q8fmcdiqmfcy0b4gx4"))
-        (patches (list (string-append (dirname current-filename) "/patches/kde1-kdelibs.patch")))))
+        (patches (search-patches "patches/kde1-kdelibs.patch"))))
     
     (build-system cmake-build-system)
     (arguments
@@ -132,7 +134,7 @@
             (commit "a0ba99f725e3ded89f62845f88a92ca233177bc1")))
         (file-name (git-file-name name version))
         (sha256 (base32 "1h233js1qdbn489jnz04afkcwr55b5352j2xivk55jl89fxr9jz0"))
-        (patches (list (string-append (dirname current-filename) "/patches/kde1-kdebase.patch")))))
+        (patches (search-patches  "patcheskde1-kdebase.patch"))))
     
     (build-system cmake-build-system)
     (arguments

@@ -1,3 +1,5 @@
+(define-module (zamfofex compilers agda))
+
 (use-modules
   (guix packages)
   (guix download)

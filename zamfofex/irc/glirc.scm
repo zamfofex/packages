@@ -1,3 +1,5 @@
+(define-module (zamfofex irc glirc))
+
 ; Note: Most of this file was generated automatically using ‘guix import’, with few modifications to tie everything together.
 
 (use-modules (guix packages)

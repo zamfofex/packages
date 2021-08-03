@@ -1,3 +1,5 @@
+(define-module (zamfofex compilers mold))
+
 (use-modules
   (guix packages)
   (guix licenses)
