@@ -5,6 +5,8 @@
   (guix build-system copy)
   (guix git-download))
 
+; Note: User configuration can be placed at ‘~/.config/lite/user’
+
 (define-public lite
   (package
     (name "lite")
@@ -24,7 +26,8 @@
             (url "https://github.com/rxi/lite")
             (commit (string-append "v" version))))
         (file-name (git-file-name name version))
-        (sha256 (base32 "0wxqfb4ly8g7w5qph76xys95b55ackkags8jgd1nasmiyi8gcd5a"))))
+        (sha256 (base32 "0wxqfb4ly8g7w5qph76xys95b55ackkags8jgd1nasmiyi8gcd5a"))
+        (patches (list (string-append (dirname current-filename) "/patches/lite.patch")))))
     
     (build-system copy-build-system)
     
@@ -35,6 +38,6 @@
               (lambda* (#:key outputs #:allow-other-keys)
                 (system* "./build.sh")
                 #t)))
-        #:install-plan '(("lite" "bin/") ("data" "bin/"))))))
+        #:install-plan '(("lite" "bin/") ("data" "share/lite/"))))))
 
 lite

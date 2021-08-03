@@ -1,0 +1,7 @@
+--- a/src/main.c
++++ b/src/main.c
+@@ -0,1 +0,3 @@
+-    "  EXEDIR = EXEFILE:match(\"^(.+)[/\\\\].*$\")\n"
++    "  EXEDIR = EXEFILE:match(\"^(.+)/.+/.+$\") .. '/share/lite'\n"
++    "  package.path = os.getenv('HOME') .. '/.config/lite/?.lua;' .. package.path\n"
++    "  package.path = os.getenv('HOME') .. '/.config/lite/?/init.lua;' .. package.path\n"
