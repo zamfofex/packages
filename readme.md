@@ -29,8 +29,7 @@ In addition, each Scheme file might contains multiple packages, but they focus o
 
 ~~~
 git clone https://github.com/zamfofex/packages
-cd packages
-guix package -f games/liquidwar5.scm
+guix package -f packages/zamfofex/games/liquidwar5.scm
 ~~~
 
 The files have comments with relevant and useful notes about their current status.
