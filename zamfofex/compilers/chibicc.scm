@@ -7,10 +7,9 @@
   (guix git-download)
   (guix build-system gnu)
   (guix utils)
+  (zamfofex compilers mold)
   (gnu packages base)
   (gnu packages gcc))
-
-(include "./mold.scm")
 
 (define-public chibicc
   (package
