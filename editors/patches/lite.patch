@@ -1,7 +1,73 @@
 --- a/src/main.c
 +++ b/src/main.c
-@@ -0,1 +0,3 @@
+@@ -0,3 +0,5 @@
 -    "  EXEDIR = EXEFILE:match(\"^(.+)[/\\\\].*$\")\n"
 +    "  EXEDIR = EXEFILE:match(\"^(.+)/.+/.+$\") .. '/share/lite'\n"
+     "  package.path = EXEDIR .. '/data/?.lua;' .. package.path\n"
+     "  package.path = EXEDIR .. '/data/?/init.lua;' .. package.path\n"
 +    "  package.path = os.getenv('HOME') .. '/.config/lite/?.lua;' .. package.path\n"
 +    "  package.path = os.getenv('HOME') .. '/.config/lite/?/init.lua;' .. package.path\n"
+
+--- a/build.sh
++++ b/build.sh
+@@ -0,2 +0,2 @@
+-cflags="-Wall -O3 -g -std=gnu11 -fno-strict-aliasing -Isrc"
+-lflags="-lSDL2 -lm"
++cflags="-O3 -g -iquote src"
++lflags="-llua -lSDL2 -lm"
+
+--- a/build.sh
++++ b/build.sh
+@@ -0,1 +0,1 @@
+-for f in `find src -name "*.c"`; do
++for f in src{,/api}/*.c; do
+
+--- a/src/renderer.c
++++ b/src/renderer.c
+@@ -0,1 +0,2 @@
+-#include "lib/stb/stb_truetype.h"
++#define STB_TRUETYPE_IMPLEMENTATION
++#include <stb_truetype.h>
+
+--- a/src/api/api.h
++++ b/src/api/api.h
+@@ -0,3 +0,3 @@
+-#include "lib/lua52/lua.h"
+-#include "lib/lua52/lauxlib.h"
+-#include "lib/lua52/lualib.h"
++#include <lua.h>
++#include <lauxlib.h>
++#include <lualib.h>
+
+--- a/data/core/init.lua
++++ b/data/core/init.lua
+@@ -0,1 +0,1 @@
+-  return EXEDIR .. PATHSEP .. temp_file_prefix
++  return "/tmp/" .. temp_file_prefix
+
+--- a/data/core/init.lua
++++ b/data/core/init.lua
+@@ -0,1 +0,1 @@
+-local temp_file_prefix = string.format(".lite_temp_%08x", temp_uid)
++local temp_file_prefix = string.format("lite_%08x", math.floor(temp_uid))
+
+--- a/data/plugins/projectsearch.lua
++++ b/data/plugins/projectsearch.lua
+@@ -0,1 +0,1 @@
+-    text = string.format("Searching %d%% (%d of %d files, %d matches) for %q...",
++    text = string.format("Searching %.0f%% (%d of %d files, %d matches) for %q...",
+
+--- a/data/core/statusview.lua
++++ b/data/core/statusview.lua
+@@ -0,1 +0,1 @@
+-      string.format("%d%%", line / #dv.doc.lines * 100),
++      string.format("%.0f%%", line / #dv.doc.lines * 100),
+
+--- a/data/core/init.lua
++++ b/data/core/init.lua
+@@ -0,1 +0,4 @@
+-  local files = system.list_dir(EXEDIR .. "/data/plugins")
++  local files = system.list_dir(EXEDIR .. "/data/plugins")
++  for _, name in ipairs(system.list_dir(os.getenv("HOME") .. "/.config/lite/plugins") or {}) do
++    table.insert(files, name)
++  end

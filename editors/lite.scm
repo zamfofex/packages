@@ -1,5 +1,7 @@
 (use-modules
   (gnu packages sdl)
+  (gnu packages stb)
+  (gnu packages lua)
   (guix packages)
   (guix licenses)
   (guix build-system copy)
@@ -16,7 +18,7 @@
     (description "lite is a lightweight text editor written mostly in Lua — it aims to provide something practical, pretty, small and fast, implemented as simply as possible; easy to modify and extend, or to use without doing either.")
     (license (non-copyleft "file:///LICENSE"))
     
-    (inputs `(("sdl2" ,sdl2)))
+    (inputs `(("lua" ,lua) ("sdl2" ,sdl2) ("stb-truetype" ,stb-truetype)))
     
     (source
       (origin
