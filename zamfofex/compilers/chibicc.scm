@@ -40,7 +40,7 @@
         (sha256 (base32 "1ayvik0j7202wd5cnic961p6ibasndwhmfzzrbkp8ga9zx18yr5h"))
         (patches (find-patches "patches/chibicc.patch"))))
     
-    (supported-systems "x86_64-linux")
+    (supported-systems '("x86_64-linux"))
     
     (build-system gnu-build-system)
     (arguments
