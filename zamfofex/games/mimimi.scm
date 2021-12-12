@@ -19,7 +19,7 @@
     (synopsis "a Senran Kagura fangame")
     (description synopsis)
     (home-page "https://zamfofex.neocities.org/mimimi/")
-    (license license:gpl3+)
+    (license license:agpl3+)
     
     (inputs `(("sdl2" ,sdl2)))
     
