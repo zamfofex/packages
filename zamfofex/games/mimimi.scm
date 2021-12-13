@@ -198,12 +198,9 @@
                  (replace 'install-lib
                    (lambda* (#:key outputs #:allow-other-keys)
                      (let* ((out (assoc-ref outputs "lib"))
-                            (lib (string-append out "/lib"))
-                            (include (string-append out "/include")))
+                            (lib (string-append out "/lib")))
                        (mkdir-p lib)
-                       (mkdir-p include)
                        (install-file "libmimimi.so" lib)
-                       (install-file "mimimi.h" include)
                        #t)))
                  (replace 'install-headers
                    (lambda* (#:key outputs #:allow-other-keys)
