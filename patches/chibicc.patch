@@ -1,6 +1,6 @@
 --- a/main.c
 +++ b/main.c
-@@ -0,8 +0,7 @@ static void add_default_include_paths(char *argv0) {
+@@ -0,8 +0,7 @@
 -  // We expect that chibicc-specific include files are installed
 -  // to ./include relative to argv[0].
 -  strarray_push(&include_paths, format("%s/include", dirname(strdup(argv0))));
@@ -19,7 +19,7 @@
 
 --- a/main.c
 +++ b/main.c
-@@ -0,5 +0,1 @@ static char *find_libpath(void) {
+@@ -0,5 +0,1 @@
 -  if (file_exists("/usr/lib/x86_64-linux-gnu/crti.o"))
 -    return "/usr/lib/x86_64-linux-gnu";
 -  if (file_exists("/usr/lib64/crti.o"))
@@ -29,7 +29,7 @@
 
 --- a/main.c
 +++ b/main.c
-@@ -0,5 +0,3 @@ static char *find_gcc_libpath(void) {
+@@ -0,5 +0,3 @@
    char *paths[] = {
 -    "/usr/lib/gcc/x86_64-linux-gnu/*/crtbegin.o",
 -    "/usr/lib/gcc/x86_64-pc-linux-gnu/*/crtbegin.o", // For Gentoo
@@ -37,20 +37,20 @@
 +    GCC_ROOT "/lib/gcc/x86_64-unknown-linux-gnu/*/crtbegin.o",
    };
 
-@@ -0,1 +0,1 @@ static void run_linker(StringArray *inputs, char *output) {
+@@ -0,1 +0,1 @@
 -  strarray_push(&arr, "ld");
 +  strarray_push(&arr, LD_EXE);
 
 --- a/main.c
 +++ b/main.c
-@@ -0,2 +0,2 @@ static void run_linker(StringArray *inputs, char *output) {
+@@ -0,2 +0,2 @@
      strarray_push(&arr, "-dynamic-linker");
 -    strarray_push(&arr, "/lib64/ld-linux-x86-64.so.2");
-+    strarray_push(&arr, GLIBC_ROOT "/lib/ld-2.31.so");
++    strarray_push(&arr, GLIBC_ROOT "/lib/ld-linux-x86-64.so.2");
 
 --- a/main.c
 +++ b/main.c
-@@ -0,8 +0,7 @@ static void run_linker(StringArray *inputs, char *output) {
+@@ -0,8 +0,7 @@
 -  strarray_push(&arr, "-L/usr/lib/x86_64-linux-gnu");
 -  strarray_push(&arr, "-L/usr/lib64");
 -  strarray_push(&arr, "-L/lib64");

@@ -3,7 +3,7 @@
 (use-modules
   (guix packages)
   (gnu packages)
-  (guix licenses)
+  ((guix licenses) #:prefix license:)
   (guix git-download)
   (guix build-system gnu)
   (guix utils)
@@ -25,9 +25,9 @@
         "without making modifications to the compiled programs. Generated executables of these programs pass their corresponding test suites. "
         "So, chibicc actually supports a wide variety of C11 features and is able to compile hundreds of thousands of lines of real-world C code correctly."))
     
-    (license (non-copyleft "file:///LICENSE"))
+    (license license:expat)
     
-    (inputs `(("glibc" ,glibc) ("gcc:lib" ,gcc "lib")))
+    (inputs (list glibc `(,gcc "lib")))
     
     (source
       (origin
@@ -44,13 +44,13 @@
     
     (build-system gnu-build-system)
     (arguments
-      '(#:make-flags
-         (list (string-append "CC=" (assoc-ref %build-inputs "gcc") "/bin/gcc")
+      `(#:make-flags
+         (list (string-append "CC=" ,(cc-for-target))
                (string-append "CFLAGS=-O3 "
                  "-DCHIBICC_ROOT=\\\"" (assoc-ref %outputs "out") "\\\" "
                  "-DGLIBC_ROOT=\\\"" (assoc-ref %build-inputs "glibc") "\\\" "
-                 "-DGCC_ROOT=\\\"" (assoc-ref %build-inputs "gcc:lib") "\\\" "
-                 "-DLD_EXE=\\\"" (assoc-ref %build-inputs "binutils") "/bin/ld\\\" "))
+                 "-DGCC_ROOT=\\\"" (assoc-ref %build-inputs "gcc") "\\\" "
+                 "-DLD_EXE=\\\"" (search-input-file %build-inputs "/bin/ld") "\\\" "))
         #:phases
           (modify-phases %standard-phases
             (delete 'configure)
@@ -59,26 +59,9 @@
                 (let* ((out (assoc-ref outputs "out")) (bin (string-append out "/bin")) (include (string-append out "/include/chibicc")))
                   (install-file "chibicc" bin)
                   (copy-recursively "include" include)))))
-            ; (add-before 'check 'fix-test
-            ;   (lambda* (#:key outputs #:allow-other-keys)
-            ;     (substitute* "test/driver.sh" (("\\bcc\\b") "$chibicc"))))
         ; Note: chibicc’s tests currently require linking against a library file from ‘/tmp’ in the build environment.
         ; Note: Guix doesn’t like that, and I’m unsure whether it is possible to allow it, so tests are disabled.
         #:tests? #f
         #:test-target "test"))))
-
-(define-public chibicc-mold
-  (package (inherit chibicc)
-    (name "chibicc-mold")
-    (inputs (append (package-inputs chibicc) `(("mold" ,mold))))
-    (arguments
-      (substitute-keyword-arguments (package-arguments chibicc)
-        ((#:make-flags flags '())
-           '(list (string-append "CC=" (assoc-ref %build-inputs "gcc") "/bin/gcc")
-                  (string-append "CFLAGS=-O3 "
-                    "-DCHIBICC_ROOT=\\\"" (assoc-ref %outputs "out") "\\\" "
-                    "-DGLIBC_ROOT=\\\"" (assoc-ref %build-inputs "glibc") "\\\" "
-                    "-DGCC_ROOT=\\\"" (assoc-ref %build-inputs "gcc:lib") "\\\" "
-                    "-DLD_EXE=\\\"" (assoc-ref %build-inputs "mold") "/bin/mold\\\" ")))))))
 
 chibicc
